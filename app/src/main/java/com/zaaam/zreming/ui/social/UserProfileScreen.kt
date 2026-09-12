@@ -1,7 +1,9 @@
 package com.zaaam.zreming.ui.social
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Chat
@@ -11,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -127,7 +130,7 @@ fun UserProfileScreen(
 private fun StatBox(label: String, value: Int, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Column(
         modifier = modifier
-            .clip(androidx.compose.foundation.shape.RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp))
             .background(CardDark)
             .clickableSafe(onClick)
             .padding(12.dp),
@@ -139,4 +142,4 @@ private fun StatBox(label: String, value: Int, modifier: Modifier = Modifier, on
 }
 
 private fun Modifier.clickableSafe(onClick: () -> Unit): Modifier =
-    this.then(androidx.compose.foundation.clickable(onClick = onClick))
+    this.then(clickable(onClick = onClick))
