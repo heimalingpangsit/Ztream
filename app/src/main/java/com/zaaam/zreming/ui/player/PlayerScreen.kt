@@ -378,6 +378,7 @@ fun PlayerScreen(
                 onDraftChange = viewModel::onNobarChatDraftChange,
                 onSend = viewModel::sendNobarChat,
                 onClose = { showNobarChat = false },
+                modifier = Modifier.align(Alignment.CenterEnd)
             )
         }
     }
@@ -391,6 +392,7 @@ private fun NobarChatPanel(
     onDraftChange: (String) -> Unit,
     onSend: () -> Unit,
     onClose: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
     LaunchedEffect(messages.size) {
@@ -398,8 +400,7 @@ private fun NobarChatPanel(
     }
 
     Column(
-        modifier = Modifier
-            .align(Alignment.CenterEnd)
+        modifier = modifier
             .fillMaxHeight()
             .width(280.dp)
             .background(Color.Black.copy(alpha = 0.75f)),
@@ -459,16 +460,11 @@ private fun CaptionOverlay(
     exoPlayer: ExoPlayer,
     getCaptionText: (Long) -> String?,
 ) {
-    // State & polling ini SENGAJA diisolasi di composable terpisah supaya
-    // update tiap 300ms cuma bikin Text kecil ini yang recompose — sama
-    // sekali nggak menyentuh PlayerView di composable induk.
     var positionMs by remember { mutableLongStateOf(0L) }
 
     LaunchedEffect(exoPlayer) {
         while (true) {
             delay(300)
-            // cuma update kalau video lagi jalan — kalau lagi pause/buffering
-            // nggak perlu polling terus-terusan
             if (exoPlayer.isPlaying) {
                 positionMs = exoPlayer.currentPosition
             }
