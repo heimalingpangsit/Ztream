@@ -58,10 +58,9 @@ class NobarInviteViewModel @Inject constructor(
                 )
             }
             Log.e(TAG, "ContentId is blank, cannot create room!")
-            return
+        } else {
+            createRoomAndLoadFriends()
         }
-        
-        createRoomAndLoadFriends()
     }
 
     private fun createRoomAndLoadFriends() {
