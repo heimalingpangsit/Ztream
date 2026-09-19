@@ -1,6 +1,18 @@
 {
   "notifications": [
     {
+      "id": "notif_af36bcbdce404097",
+      "userId": "user_ba14cc35bacb4c2f",
+      "type": "CHAT_MESSAGE",
+      "title": "Pesan baru dari @LehzzXD",
+      "body": "yok dah",
+      "meta": {
+        "fromUsername": "LehzzXD"
+      },
+      "read": false,
+      "createdAt": "2026-09-19T09:45:17.147Z"
+    },
+    {
       "id": "notif_31ffe2c3ed3243f8",
       "userId": "user_bac028e959a94ef2",
       "type": "CHAT_MESSAGE",
