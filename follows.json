@@ -6,6 +6,13 @@
       "followingId": "user_bac028e959a94ef2",
       "followingUsername": "LehzzXD",
       "createdAt": "2026-09-19T09:44:45.468Z"
+    },
+    {
+      "followerId": "user_bac028e959a94ef2",
+      "followerUsername": "LehzzXD",
+      "followingId": "user_ba14cc35bacb4c2f",
+      "followingUsername": "tes",
+      "createdAt": "2026-09-19T09:44:50.484Z"
     }
   ]
 }
