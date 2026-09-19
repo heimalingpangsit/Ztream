@@ -181,7 +181,9 @@
       "referralCode": "65AABCD9",
       "referredBy": null,
       "referralRedeemed": false,
-      "deviceIds": [],
+      "deviceIds": [
+        "60bf57e52ec0789aa9c5f13e55a2e50d13df311d530778d1abe5f7ca81796abc"
+      ],
       "maxDevices": 1
     }
   ]
