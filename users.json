@@ -153,7 +153,9 @@
       "referralCode": "1D4ACCCC",
       "referredBy": null,
       "referralRedeemed": false,
-      "deviceIds": [],
+      "deviceIds": [
+        "bc67615cd1881302778e9ce9a6e39a706e1f2f9aeaa13f14849899c1d13dabc2"
+      ],
       "maxDevices": 1
     },
     {
