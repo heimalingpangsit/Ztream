@@ -159,7 +159,7 @@
     {
       "id": "user_bac028e959a94ef2",
       "username": "LehzzXD",
-      "passwordHash": "pbkdf2$100000$040be48d5a04ab31d2737a7e651d4c04$e6195bba35ef93ae1cfc0a99b7f4467a507ba51f336e0b630a1be64123a4fd68",
+      "passwordHash": "pbkdf2$100000$4733fb23b492fe02b2ad6d9318f66bb1$75d64b9d3cd97e4d32e6668074ddc5c5f954c4adf2d315ac040c09464d88ae30",
       "role": "ADMIN",
       "points": 0,
       "vip": false,
