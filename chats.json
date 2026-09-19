@@ -17,6 +17,13 @@
           "senderUsername": "tes",
           "text": "p",
           "createdAt": "2026-09-19T09:44:53.755Z"
+        },
+        {
+          "id": "msg_177cdfdb8b734c10",
+          "senderId": "user_bac028e959a94ef2",
+          "senderUsername": "LehzzXD",
+          "text": "yok dah",
+          "createdAt": "2026-09-19T09:45:15.345Z"
         }
       ],
       "readAt": {
@@ -24,14 +31,15 @@
         "user_ba14cc35bacb4c2f": "2026-09-19T09:45:10.807Z"
       },
       "streak": {
-        "count": 0,
-        "lastCompletedDate": null,
+        "count": 1,
+        "lastCompletedDate": "2026-09-19",
         "today": "2026-09-19",
         "todaySenders": [
-          "user_ba14cc35bacb4c2f"
+          "user_ba14cc35bacb4c2f",
+          "user_bac028e959a94ef2"
         ]
       },
-      "updatedAt": "2026-09-19T09:44:53.755Z"
+      "updatedAt": "2026-09-19T09:45:15.345Z"
     }
   ]
 }
