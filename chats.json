@@ -1,0 +1,34 @@
+{
+  "conversations": [
+    {
+      "id": "user_ba14cc35bacb4c2f__user_bac028e959a94ef2",
+      "participantIds": [
+        "user_ba14cc35bacb4c2f",
+        "user_bac028e959a94ef2"
+      ],
+      "participantUsernames": [
+        "tes",
+        "LehzzXD"
+      ],
+      "messages": [
+        {
+          "id": "msg_384a551dbfdf4ed9",
+          "senderId": "user_ba14cc35bacb4c2f",
+          "senderUsername": "tes",
+          "text": "p",
+          "createdAt": "2026-09-19T09:44:53.755Z"
+        }
+      ],
+      "readAt": {},
+      "streak": {
+        "count": 0,
+        "lastCompletedDate": null,
+        "today": "2026-09-19",
+        "todaySenders": [
+          "user_ba14cc35bacb4c2f"
+        ]
+      },
+      "updatedAt": "2026-09-19T09:44:53.755Z"
+    }
+  ]
+}
