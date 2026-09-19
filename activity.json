@@ -1,6 +1,14 @@
 {
   "activities": [
     {
+      "id": "act_69f8fdf7f5b94ee7",
+      "timestamp": "2026-09-19T15:28:21.835Z",
+      "actor": "OWNER",
+      "action": "ADMIN_CHANGE_PASSWORD",
+      "target": "user_bac028e959a94ef2",
+      "metadata": {}
+    },
+    {
       "id": "act_616d5fa8c8264a27",
       "timestamp": "2026-09-19T09:44:13.279Z",
       "actor": "OWNER",
