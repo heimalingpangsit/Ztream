@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ZarStream — Maintenance</title>
+    <meta name="description" content="Status pemeliharaan ZarStream dan pembaruan layanan realtime." />
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #fff7f0;
+        --muted: #d6aaa1;
+        --red: #ff4d3d;
+        --red-deep: #3c0d15;
+        --gold: #ffbf68;
+        --line: rgba(255, 191, 104, .26);
+      }
+      * { box-sizing: border-box; }
+      html, body { min-height: 100%; margin: 0; }
+      body {
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 76% 30%, rgba(157, 26, 28, .46), transparent 34rem),
+          radial-gradient(circle at 11% 95%, rgba(113, 18, 32, .56), transparent 32rem),
+          #27090f;
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: .18;
+        background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+        background-size: 54px 54px;
+        mask-image: linear-gradient(to bottom, black, transparent 80%);
+      }
+      html.service-clear, html.service-clear body { background: transparent !important; }
+      html.service-clear .page { visibility: hidden; }
+      html.service-clear::before { display: none; }
+      .page { width: min(1098px, calc(100% - 48px)); min-height: 100vh; margin: 0 auto; display: grid; grid-template-rows: auto 1fr auto; }
+      header, footer { display: flex; align-items: center; justify-content: space-between; }
+      header { padding-top: 28px; }
+      footer { padding: 20px 0 28px; color: #a87877; font: 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .1em; text-transform: uppercase; }
+      .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -.03em; }
+      .brand-mark { display: grid; width: 33px; height: 33px; place-items: center; transform: rotate(45deg); background: linear-gradient(135deg, #ff634a, #d93b3c); box-shadow: 5px 5px 0 rgba(255, 191, 104, .22); }
+      .brand-mark span { transform: rotate(-45deg); font: 12px ui-monospace, monospace; }
+      .connection { display: inline-flex; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 9px 13px; color: #e9c1ae; font: 10px ui-monospace, monospace; letter-spacing: .06em; text-transform: uppercase; }
+      .dot { width: 7px; height: 7px; border-radius: 50%; background: #54e5a2; box-shadow: 0 0 10px #54e5a2; }
+      .connection.offline .dot { background: #ff7f6d; box-shadow: 0 0 10px #ff7f6d; }
+      main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, .93fr); align-items: center; gap: 34px; padding: 48px 0 36px; }
+      .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--gold); font: 11px ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; }
+      .eyebrow::before { content: ""; width: 27px; height: 1px; background: var(--gold); }
+      h1 { max-width: 610px; margin: 34px 0 22px; font-size: clamp(4.2rem, 8.2vw, 7.7rem); line-height: .88; letter-spacing: -.1em; }
+      h1 span { color: var(--red); }
+      .description { max-width: 520px; margin: 0; color: #f0cfc7; font-size: 16px; line-height: 1.65; }
+      .detail { display: flex; align-items: center; gap: 11px; margin-top: 30px; color: #f3c2b5; font-size: 13px; }
+      .detail svg { width: 17px; color: #63e3a9; }
+      .hint { width: max-content; max-width: 100%; margin-top: 38px; border-top: 1px solid var(--line); padding-top: 14px; color: var(--gold); font: 11px ui-monospace, monospace; }
+      .hint summary { cursor: pointer; list-style: none; }
+      .hint summary::after { content: " ↗"; }
+      .hint summary::-webkit-details-marker { display: none; }
+      .hint pre { margin: 15px 0 10px; border: 1px solid rgba(255,191,104,.18); border-radius: 10px; padding: 14px; color: #ffd79d; background: rgba(0,0,0,.18); font-size: 11px; line-height: 1.6; }
+      .hint small { display: block; max-width: 380px; color: #c48e88; font: 11px/1.6 ui-sans-serif, system-ui, sans-serif; }
+      .visual { position: relative; min-height: 530px; display: grid; place-items: center; }
+      .visual::before, .visual::after { content: ""; position: absolute; border: 1px solid rgba(255, 191, 104, .2); border-radius: 50%; transform: rotate(-13deg); }
+      .visual::before { width: 370px; height: 370px; }
+      .visual::after { width: 280px; height: 430px; }
+      .orbit-label { position: absolute; right: 5%; top: 20%; color: rgba(255, 191, 104, .63); font: 10px ui-monospace, monospace; letter-spacing: .22em; writing-mode: vertical-rl; text-transform: uppercase; }
+      .robot { position: relative; z-index: 1; width: 250px; height: 410px; filter: drop-shadow(0 24px 18px rgba(0,0,0,.4)); animation: float 5s ease-in-out infinite; }
+      .robot::after { content: ""; position: absolute; bottom: 0; left: 50%; width: 240px; height: 34px; transform: translateX(-50%); border-radius: 50%; background: rgba(255, 67, 51, .3); filter: blur(13px); }
+      .antenna { position: absolute; z-index: 2; top: 0; left: 50%; width: 4px; height: 42px; transform: translateX(-50%); background: #b62e31; }
+      .antenna::before { content: ""; position: absolute; top: -9px; left: -6px; width: 16px; height: 16px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 18px var(--gold); }
+      .head, .body { position: absolute; left: 50%; transform: translateX(-50%); border: 3px solid #a92c32; background: linear-gradient(145deg, #ff5547, #b92730 75%); box-shadow: inset -13px -13px 0 rgba(108, 10, 26, .22), 11px 13px 0 rgba(94, 14, 24, .62); }
+      .head { top: 37px; width: 215px; height: 155px; border-radius: 47px 47px 37px 37px; }
+      .head::before { content: ""; position: absolute; inset: 27px 21px 23px; border-radius: 28px; background: linear-gradient(155deg, #56121d, #230a11); box-shadow: inset 0 0 15px rgba(0,0,0,.65); }
+      .eyes { position: absolute; z-index: 1; top: 75px; left: 50%; display: flex; gap: 48px; transform: translateX(-50%); }
+      .eyes i { display: block; width: 38px; height: 13px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 14px var(--gold); }
+      .neck { position: absolute; z-index: 0; top: 177px; left: 50%; width: 64px; height: 33px; transform: translateX(-50%); border: 3px solid #a92c32; background: #bd3035; }
+      .body { top: 193px; width: 177px; height: 160px; border-radius: 31px 31px 27px 27px; }
+      .panel { position: absolute; inset: 25px 29px 32px; border-radius: 21px; background: #721b27; box-shadow: inset 0 0 0 3px rgba(44, 5, 13, .26); }
+      .panel::before, .panel::after { content: ""; position: absolute; left: 50%; width: 60px; height: 8px; transform: translateX(-50%); border-radius: 9px; background: var(--gold); box-shadow: 0 0 9px rgba(255,191,104,.35); }
+      .panel::before { top: 42px; } .panel::after { top: 65px; }
+      .arm, .leg { position: absolute; z-index: -1; border: 3px solid #9d2832; background: linear-gradient(150deg, #ef493f, #a8222d); }
+      .arm { top: 205px; width: 38px; height: 132px; border-radius: 20px; } .arm.left { left: 13px; transform: rotate(9deg); } .arm.right { right: 13px; transform: rotate(-9deg); }
+      .leg { top: 334px; width: 58px; height: 75px; border-radius: 12px 12px 24px 24px; } .leg.left { left: 55px; } .leg.right { right: 55px; }
+      .loading { height: 220px; width: min(500px, 100%); margin-top: 34px; border-radius: 10px; background: linear-gradient(90deg, rgba(255,255,255,.07), rgba(255,255,255,.15), rgba(255,255,255,.07)); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+      .offline h1 span { color: #ff9b79; } .offline .dot { background: #ff7f6d; }
+      @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-13px); } }
+      @keyframes shimmer { to { background-position: -200% 0; } }
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+      @media (max-width: 780px) {
+        .page { width: min(100% - 40px, 520px); }
+        header { padding-top: 20px; } .connection { padding: 8px 10px; font-size: 9px; }
+        main { display: block; padding: 70px 0 10px; } h1 { margin-top: 28px; font-size: clamp(4rem, 18vw, 6rem); }
+        .description { font-size: 15px; } .visual { min-height: 400px; margin-top: 32px; transform: scale(.88); }
+        footer { font-size: 8px; padding-bottom: 18px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <div class="brand"><span class="brand-mark"><span>Z</span></span><span>ZarStream</span></div>
+        <div id="connection" class="connection"><span class="dot"></span><span id="connection-text">MENGHUBUNGKAN</span></div>
+      </header>
+      <main id="main">
+        <section id="copy">
+          <div class="eyebrow" id="eyebrow">SYSTEM / CHECK</div>
+          <div id="content"><div class="loading"></div></div>
+        </section>
+        <section class="visual" aria-label="Robot ZarStream">
+          <span class="orbit-label">zar / system care</span>
+          <div class="robot">
+            <div class="antenna"></div>
+            <div class="head"></div>
+            <div class="eyes"><i></i><i></i></div>
+            <div class="neck"></div>
+            <div class="arm left"></div><div class="arm right"></div>
+            <div class="body"><div class="panel"></div></div>
+            <div class="leg left"></div><div class="leg right"></div>
+          </div>
+        </section>
+      </main>
+      <footer><span>ZARSTREAM // SERVICE STATUS</span><span>pembaruan otomatis · read only</span></footer>
+    </div>
+    <script>
+      const DATABASE_URL = "https://zarstream-6d343-default-rtdb.firebaseio.com";
+      const message = "Kami sedang melakukan pemeliharaan sistem untuk meningkatkan layanan. Silakan coba beberapa saat lagi";
+      const $ = (id) => document.getElementById(id);
+      function isObject(value) { return value && typeof value === "object" && !Array.isArray(value); }
+      function isMaintenance(value) {
+        if (value === true) return true;
+        if (!isObject(value)) return false;
+        const nested = isObject(value.maintenance) ? value.maintenance : {};
+        const legacy = isObject(value.maintance) ? value.maintance : {};
+        const booleans = [value.Maintenance, value.maintenance, value.maintance, nested.enabled, legacy.enabled, legacy.maintance];
+        const statuses = [value.status, typeof value.Maintenance === "string" ? value.Maintenance : "", nested.status, legacy.status]
+          .map((item) => typeof item === "string" ? item.trim().toLowerCase() : "");
+        return booleans.some((item) => item === true) || statuses.some((item) => ["one", "on", "active"].includes(item));
+      }
+      function render(kind) {
+        const connection = $("connection");
+        const copy = $("content");
+        if (kind === "loading") return;
+        if (kind === "restored") {
+          document.documentElement.classList.add("service-clear");
+          return;
+        }
+        document.documentElement.classList.remove("service-clear");
+        if (kind === "offline") {
+          connection.classList.add("offline"); $("connection-text").textContent = "TIDAK TERHUBUNG";
+          $("eyebrow").textContent = "STATUS / UNAVAILABLE";
+          copy.innerHTML = '<h1>Status sedang<br><span>terputus.</span></h1><p class="description">Kami belum dapat membaca status layanan saat ini. Coba segarkan beberapa saat lagi.</p><p class="detail">Menanti sinyal dari sumber status</p>';
+          return;
+        }
+        const active = kind === "maintenance";
+        $("connection-text").textContent = "TERHUBUNG REALTIME";
+        $("eyebrow").textContent = active ? "STATUS / MAINTENANCE" : "STATUS / RESTORED";
+        copy.innerHTML = active
+          ? '<h1>Maintance</h1><p class="description">' + message + '</p><p class="detail">Zar sedang memastikan semuanya kembali prima</p>'
+          : '<h1>Layanan sudah<br><span>kembali.</span></h1><p class="description">Pemeliharaan selesai. Semua jalur layanan ZarStream kembali siap menemani tontonan Anda.</p><p class="detail">ZarStream online dan siap digunakan</p>';
+      }
+      async function readStatus() {
+        try {
+          const response = await fetch(DATABASE_URL + "/.json?ts=" + Date.now(), { cache: "no-store" });
+          if (!response.ok) throw new Error("Firebase " + response.status);
+          render(isMaintenance(await response.json()) ? "maintenance" : "restored");
+        } catch (error) { render("offline"); }
+      }
+      render("loading"); readStatus(); setInterval(readStatus, 5000);
+    </script>
+  </body>
+</html>
