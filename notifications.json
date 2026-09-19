@@ -1,6 +1,23 @@
 {
   "notifications": [
     {
+      "id": "notif_0a1eddb46c9a4d0b",
+      "userId": "user_bac028e959a94ef2",
+      "type": "NOBAR_INVITE",
+      "title": "tes ngajak Nobar!",
+      "body": "Nonton bareng \"Neagley\" — gabung sekarang?",
+      "meta": {
+        "roomId": "ZarStream-8U4M3M",
+        "contentId": "273207",
+        "isTv": true,
+        "season": 1,
+        "episode": 1,
+        "invitedBy": "tes"
+      },
+      "read": false,
+      "createdAt": "2026-09-19T09:46:36.422Z"
+    },
+    {
       "id": "notif_cdc76beb84034482",
       "userId": "user_ba14cc35bacb4c2f",
       "type": "NOBAR_INVITE",
