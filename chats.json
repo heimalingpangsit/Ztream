@@ -19,7 +19,9 @@
           "createdAt": "2026-09-19T09:44:53.755Z"
         }
       ],
-      "readAt": {},
+      "readAt": {
+        "user_bac028e959a94ef2": "2026-09-19T09:45:03.903Z"
+      },
       "streak": {
         "count": 0,
         "lastCompletedDate": null,
