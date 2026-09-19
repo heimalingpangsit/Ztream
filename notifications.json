@@ -1,0 +1,16 @@
+{
+  "notifications": [
+    {
+      "id": "notif_e3accdfbe1974170",
+      "userId": "user_bac028e959a94ef2",
+      "type": "NEW_FOLLOWER",
+      "title": "Follower baru!",
+      "body": "@tes mulai follow kamu.",
+      "meta": {
+        "followerUsername": "tes"
+      },
+      "read": false,
+      "createdAt": "2026-09-19T09:44:47.260Z"
+    }
+  ]
+}
