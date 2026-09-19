@@ -1,6 +1,23 @@
 {
   "notifications": [
     {
+      "id": "notif_cdc76beb84034482",
+      "userId": "user_ba14cc35bacb4c2f",
+      "type": "NOBAR_INVITE",
+      "title": "LehzzXD ngajak Nobar!",
+      "body": "Nonton bareng \"Spider-Man: Brand New Day\" — gabung sekarang?",
+      "meta": {
+        "roomId": "ZarStream-V68FLF",
+        "contentId": "969681",
+        "isTv": false,
+        "season": 1,
+        "episode": 1,
+        "invitedBy": "LehzzXD"
+      },
+      "read": false,
+      "createdAt": "2026-09-19T09:45:33.025Z"
+    },
+    {
       "id": "notif_af36bcbdce404097",
       "userId": "user_ba14cc35bacb4c2f",
       "type": "CHAT_MESSAGE",
