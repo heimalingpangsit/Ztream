@@ -1,5 +1,6 @@
 package com.zaaam.zreming.data.nobar
 
+import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -12,6 +13,152 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
+
+@Singleton
+class NobarSyncRepository @Inject constructor() {
+
+    private val db: FirebaseDatabase = Firebase.database
+
+    private fun roomRef(roomId: String) = db.getReference("nobar_rooms").child(roomId)
+
+    suspend fun createRoomMeta(roomId: String, meta: NobarRoomMeta) {
+        try {
+            Log.d(TAG, "createRoomMeta: $roomId")
+            roomRef(roomId).child("meta").setValue(meta).await()
+            Log.d(TAG, "createRoomMeta: OK")
+        } catch (e: Exception) {
+            Log.e(TAG, "createRoomMeta: ${e.message}")
+            throw e
+        }
+    }
+
+    suspend fun markOnline(roomId: String, username: String) {
+        try {
+            Log.d(TAG, "markOnline: $roomId $username")
+            val ref = roomRef(roomId).child("presence").child(username)
+            ref.setValue(mapOf("username" to username, "online" to true)).await()
+            ref.onDisconnect().setValue(mapOf("username" to username, "online" to false))
+            Log.d(TAG, "markOnline: OK")
+        } catch (e: Exception) {
+            Log.e(TAG, "markOnline: ${e.message}")
+            throw e
+        }
+    }
+
+    fun observePlayback(roomId: String): Flow<NobarPlaybackState> = callbackFlow {
+        Log.d(TAG, "observePlayback: listener for $roomId")
+        val ref = roomRef(roomId).child("playback")
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    val state = snapshot.getValue(NobarPlaybackState::class.java)
+                    if (state != null) {
+                        trySend(state)
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "observePlayback onDataChange: ${e.message}")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "observePlayback cancelled: ${error.message}")
+                close(error.toException())
+            }
+        }
+        ref.addValueEventListener(listener)
+        awaitClose {
+            ref.removeEventListener(listener)
+        }
+    }
+
+    suspend fun pushPlayback(roomId: String, state: NobarPlaybackState) {
+        try {
+            Log.d(TAG, "pushPlayback: $roomId")
+            roomRef(roomId).child("playback").setValue(state).await()
+            Log.d(TAG, "pushPlayback: OK")
+        } catch (e: Exception) {
+            Log.e(TAG, "pushPlayback: ${e.message}")
+            throw e
+        }
+    }
+
+    fun observePresence(roomId: String): Flow<List<Map<String, Any>>> = callbackFlow {
+        Log.d(TAG, "observePresence: listener for $roomId")
+        val ref = roomRef(roomId).child("presence")
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    val list = snapshot.children.mapNotNull { child ->
+                        val data = child.value as? Map<String, Any>
+                        data?.takeIf { it["online"] as? Boolean == true }
+                    }
+                    Log.d(TAG, "observePresence: ${list.size} online")
+                    trySend(list)
+                } catch (e: Exception) {
+                    Log.e(TAG, "observePresence onDataChange: ${e.message}")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "observePresence cancelled: ${error.message}")
+                close(error.toException())
+            }
+        }
+        ref.addValueEventListener(listener)
+        awaitClose {
+            ref.removeEventListener(listener)
+        }
+    }
+
+    fun observeChat(roomId: String): Flow<List<Map<String, Any>>> = callbackFlow {
+        Log.d(TAG, "observeChat: listener for $roomId")
+        val ref = roomRef(roomId).child("chat").limitToLast(200)
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    val list = snapshot.children.mapNotNull { child ->
+                        (child.value as? Map<String, Any>)?.let { msg ->
+                            msg + ("id" to (child.key ?: ""))
+                        }
+                    }.sortedBy { it["at"] as? Long ?: 0L }
+                    Log.d(TAG, "observeChat: ${list.size} messages")
+                    trySend(list)
+                } catch (e: Exception) {
+                    Log.e(TAG, "observeChat onDataChange: ${e.message}")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "observeChat cancelled: ${error.message}")
+                close(error.toException())
+            }
+        }
+        ref.addValueEventListener(listener)
+        awaitClose {
+            ref.removeEventListener(listener)
+        }
+    }
+
+    suspend fun sendChat(roomId: String, username: String, text: String) {
+        try {
+            Log.d(TAG, "sendChat: $roomId")
+            val ref = roomRef(roomId).child("chat").push()
+            ref.setValue(mapOf(
+                "username" to username,
+                "text" to text,
+                "at" to System.currentTimeMillis(),
+            )).await()
+            Log.d(TAG, "sendChat: OK")
+        } catch (e: Exception) {
+            Log.e(TAG, "sendChat: ${e.message}")
+            throw e
+        }
+    }
+
+    companion object {
+        private const val TAG = "NOBAR_SYNC"
+    }
+}
 
 data class NobarRoomMeta(
     val hostUsername: String = "",
@@ -30,130 +177,3 @@ data class NobarPlaybackState(
     val updatedAt: Long = 0L,
     val updatedBy: String = "",
 )
-
-data class NobarChatMessage(
-    val id: String = "",
-    val username: String = "",
-    val text: String = "",
-    val at: Long = 0L,
-)
-
-data class NobarParticipant(
-    val username: String = "",
-    val online: Boolean = false,
-)
-
-@Singleton
-class NobarSyncRepository @Inject constructor() {
-
-    // lazy: kalau konfigurasi Firebase belum siap, error-nya muncul saat dipakai
-    // (dan sudah dibungkus) — bukan saat objek ini dibuat, yang bikin app mati.
-    private val db: FirebaseDatabase by lazy { Firebase.database }
-
-    /**
-     * Firebase menolak key yang memuat . # $ [ ] / dan langsung melempar
-     * DatabaseException (app force close). Username seperti "solah.udin" atau
-     * kode room dengan karakter aneh dulu bikin nobar mati mendadak, jadi
-     * semua key dibersihkan dulu di sini.
-     */
-    private fun safeKey(raw: String): String {
-        val cleaned = raw.trim().map { c ->
-            if (c.isLetterOrDigit() || c == '-' || c == '_') c else '_'
-        }.joinToString("")
-        return cleaned.ifBlank { "unknown" }.take(120)
-    }
-
-    private fun roomRef(roomId: String) =
-        db.getReference("nobar_rooms").child(safeKey(roomId))
-
-    suspend fun createRoomMeta(roomId: String, meta: NobarRoomMeta) {
-        roomRef(roomId).child("meta").setValue(meta).await()
-    }
-
-    suspend fun getRoomMeta(roomId: String): NobarRoomMeta? {
-        val snapshot = roomRef(roomId).child("meta").get().await()
-        return snapshot.getValue(NobarRoomMeta::class.java)
-    }
-
-    suspend fun roomExists(roomId: String): Boolean {
-        val snapshot = roomRef(roomId).child("meta").get().await()
-        return snapshot.exists()
-    }
-
-    fun observePlayback(roomId: String): Flow<NobarPlaybackState> = callbackFlow {
-        val ref = roomRef(roomId).child("playback")
-        val listener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val state = snapshot.getValue(NobarPlaybackState::class.java)
-                if (state != null) trySend(state)
-            }
-            override fun onCancelled(error: DatabaseError) {
-                close(error.toException())
-            }
-        }
-        ref.addValueEventListener(listener)
-        awaitClose { ref.removeEventListener(listener) }
-    }
-
-    suspend fun pushPlayback(roomId: String, state: NobarPlaybackState) {
-        roomRef(roomId).child("playback").setValue(state).await()
-    }
-
-    fun markOnline(roomId: String, username: String) {
-        runCatching {
-            val ref = roomRef(roomId).child("presence").child(safeKey(username))
-            ref.setValue(mapOf("username" to username, "online" to true))
-            ref.onDisconnect().setValue(mapOf("username" to username, "online" to false))
-        }
-    }
-
-    fun observePresence(roomId: String): Flow<List<NobarParticipant>> = callbackFlow {
-        val ref = roomRef(roomId).child("presence")
-        val listener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val list = snapshot.children.mapNotNull { child ->
-                    val username = child.child("username").getValue(String::class.java)
-                        ?: child.key
-                        ?: return@mapNotNull null
-                    val online = child.child("online").getValue(Boolean::class.java) ?: false
-                    NobarParticipant(username = username, online = online)
-                }.filter { it.online }
-                trySend(list)
-            }
-            override fun onCancelled(error: DatabaseError) {
-                close(error.toException())
-            }
-        }
-        ref.addValueEventListener(listener)
-        awaitClose { ref.removeEventListener(listener) }
-    }
-
-    fun observeChat(roomId: String): Flow<List<NobarChatMessage>> = callbackFlow {
-        val ref = roomRef(roomId).child("chat").limitToLast(200)
-        val listener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val list = snapshot.children.mapNotNull { child ->
-                    val msg = child.getValue(NobarChatMessage::class.java)
-                    msg?.copy(id = child.key ?: "")
-                }.sortedBy { it.at }
-                trySend(list)
-            }
-            override fun onCancelled(error: DatabaseError) {
-                close(error.toException())
-            }
-        }
-        ref.addValueEventListener(listener)
-        awaitClose { ref.removeEventListener(listener) }
-    }
-
-    suspend fun sendChat(roomId: String, username: String, text: String) {
-        val ref = roomRef(roomId).child("chat").push()
-        ref.setValue(
-            mapOf(
-                "username" to username,
-                "text" to text,
-                "at" to System.currentTimeMillis(),
-            )
-        ).await()
-    }
-}
