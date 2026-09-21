@@ -3,7 +3,7 @@ package com.zaaam.zreming.ui.nobar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -32,7 +32,6 @@ import com.zaaam.zreming.ui.theme.DarkBg
 import com.zaaam.zreming.ui.theme.PrimaryRed
 import com.zaaam.zreming.ui.theme.TextDim
 import com.zaaam.zreming.ui.theme.TextLight
-import kotlinx.coroutines.delay
 
 @Composable
 fun NobarHubScreen(
@@ -43,10 +42,7 @@ fun NobarHubScreen(
     var code by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        while (true) {
-            delay(15_000)
-            viewModel.loadInvites()
-        }
+        viewModel.loadInvites()
     }
 
     Column(
@@ -184,7 +180,7 @@ fun NobarHubScreen(
 
             else -> {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    itemsIndexed(uiState.invites, key = { index, item -> "$index-${item.id}-${item.roomCode}" }) { _, invite ->
+                    items(uiState.invites, key = { it.id + it.roomCode }) { invite ->
                         Surface(
                             shape = RoundedCornerShape(14.dp),
                             color = CardDark,
