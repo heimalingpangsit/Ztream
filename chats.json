@@ -31,6 +31,13 @@
           "senderUsername": "tes",
           "text": "crot",
           "createdAt": "2026-09-22T15:47:28.418Z"
+        },
+        {
+          "id": "msg_868c2cb598ad4541",
+          "senderId": "user_bac028e959a94ef2",
+          "senderUsername": "LehzzXD",
+          "text": "gas",
+          "createdAt": "2026-09-22T15:50:39.252Z"
         }
       ],
       "readAt": {
@@ -39,13 +46,14 @@
       },
       "streak": {
         "count": 1,
-        "lastCompletedDate": "2026-09-19",
+        "lastCompletedDate": "2026-09-22",
         "today": "2026-09-22",
         "todaySenders": [
-          "user_ba14cc35bacb4c2f"
+          "user_ba14cc35bacb4c2f",
+          "user_bac028e959a94ef2"
         ]
       },
-      "updatedAt": "2026-09-22T15:47:28.418Z"
+      "updatedAt": "2026-09-22T15:50:39.252Z"
     }
   ]
 }
