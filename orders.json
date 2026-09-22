@@ -1,0 +1,17 @@
+{
+  "orders": [
+    {
+      "id": "ORDMUCV8VCS2959427E0D",
+      "type": "order",
+      "role": "member",
+      "duration": 30,
+      "maxDevices": 1,
+      "username": "memek",
+      "passwordHash": "pbkdf2$100000$d0d48d709129e230658058878ccccfda$0e3cafc9937d285c948372e5044460bdaf31b6c0be3ea68acc39c976ac94cbe3",
+      "amount": 25000,
+      "status": "pending",
+      "createdUserId": null,
+      "createdAt": "2026-09-22T16:05:56.284Z"
+    }
+  ]
+}
