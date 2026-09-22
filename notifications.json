@@ -1,6 +1,23 @@
 {
   "notifications": [
     {
+      "id": "notif_ccea2dc611914238",
+      "userId": "user_ba14cc35bacb4c2f",
+      "type": "NOBAR_INVITE",
+      "title": "LehzzXD ngajak Nobar!",
+      "body": "Nonton bareng \"The End of Oak Street\" — gabung sekarang?",
+      "meta": {
+        "roomId": "ZarStream-2RN6CB",
+        "contentId": "1101383",
+        "isTv": false,
+        "season": 1,
+        "episode": 1,
+        "invitedBy": "LehzzXD"
+      },
+      "read": false,
+      "createdAt": "2026-09-22T15:51:13.376Z"
+    },
+    {
       "id": "notif_b6f048085cd04ac0",
       "userId": "user_ba14cc35bacb4c2f",
       "type": "NEW_FOLLOWER",
