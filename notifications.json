@@ -1,6 +1,18 @@
 {
   "notifications": [
     {
+      "id": "notif_b6f048085cd04ac0",
+      "userId": "user_ba14cc35bacb4c2f",
+      "type": "NEW_FOLLOWER",
+      "title": "Follower baru!",
+      "body": "@LehzzXD mulai follow kamu.",
+      "meta": {
+        "followerUsername": "LehzzXD"
+      },
+      "read": false,
+      "createdAt": "2026-09-22T15:50:54.097Z"
+    },
+    {
       "id": "notif_f4134da69ddc4ff9",
       "userId": "user_ba14cc35bacb4c2f",
       "type": "CHAT_MESSAGE",
