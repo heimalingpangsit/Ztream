@@ -24,6 +24,13 @@
           "senderUsername": "LehzzXD",
           "text": "yok dah",
           "createdAt": "2026-09-19T09:45:15.345Z"
+        },
+        {
+          "id": "msg_178f47c6c1ec4c1f",
+          "senderId": "user_ba14cc35bacb4c2f",
+          "senderUsername": "tes",
+          "text": "crot",
+          "createdAt": "2026-09-22T15:47:28.418Z"
         }
       ],
       "readAt": {
@@ -33,13 +40,12 @@
       "streak": {
         "count": 1,
         "lastCompletedDate": "2026-09-19",
-        "today": "2026-09-19",
+        "today": "2026-09-22",
         "todaySenders": [
-          "user_ba14cc35bacb4c2f",
-          "user_bac028e959a94ef2"
+          "user_ba14cc35bacb4c2f"
         ]
       },
-      "updatedAt": "2026-09-19T09:45:15.345Z"
+      "updatedAt": "2026-09-22T15:47:28.418Z"
     }
   ]
 }
