@@ -158,16 +158,17 @@ class PlayerViewModel @Inject constructor(
 
         Log.d(TAG, "connectToNobar: starting for room $roomId")
 
-        try {
-            nobarSyncRepository.markOnline(roomId, myUsername)
-        } catch (e: Exception) {
-            Log.w(TAG, "markOnline failed: ${e.message}")
-        }
-
         nobarJob?.cancel()
         nobarJob = null
 
         nobarJob = viewModelScope.launch {
+            try {
+                Log.d(TAG, "markOnline: $roomId $myUsername")
+                nobarSyncRepository.markOnline(roomId, myUsername)
+            } catch (e: Exception) {
+                Log.w(TAG, "markOnline failed: ${e.message}")
+            }
+
             try {
                 launch {
                     try {
@@ -187,11 +188,14 @@ class PlayerViewModel @Inject constructor(
                     try {
                         Log.d(TAG, "Setting up chat observer")
                         nobarSyncRepository.observeChat(roomId).collect { messages ->
-                            val chatLines = messages.map { msg ->
+                            val chatLines = messages.mapNotNull { msg ->
+                                val id = msg["id"] as? String ?: return@mapNotNull null
+                                val username = msg["username"] as? String ?: "Unknown"
+                                val text = msg["text"] as? String ?: ""
                                 NobarChatLine(
-                                    id = msg.id,
-                                    username = msg.username,
-                                    text = msg.text,
+                                    id = id,
+                                    username = username,
+                                    text = text,
                                 )
                             }
                             Log.d(TAG, "Chat update: ${messages.size} messages")
