@@ -1,22 +1,22 @@
 {
   "rooms": [
     {
-      "id": "ZarStream-E52XNA",
-      "hostId": "user_bac028e959a94ef2",
-      "hostUsername": "LehzzXD",
-      "contentId": "969681",
-      "contentTitle": "Spider-Man: Brand New Day",
+      "id": "ZarStream-HHGS3A",
+      "hostId": "OWNER",
+      "hostUsername": "Jepin",
+      "contentId": "1423191",
+      "contentTitle": "Resident Evil",
       "isTv": false,
       "season": 1,
       "episode": 1,
-      "posterUrl": "https://image.tmdb.org/t/p/w500/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w500/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
       "participantIds": [
-        "user_bac028e959a94ef2"
+        "OWNER"
       ],
       "participantUsernames": [
-        "LehzzXD"
+        "Jepin"
       ],
-      "createdAt": "2026-09-20T22:31:21.296Z"
+      "createdAt": "2026-09-22T15:44:27.574Z"
     }
   ]
 }
