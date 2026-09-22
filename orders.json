@@ -12,6 +12,15 @@
       "status": "pending",
       "createdUserId": null,
       "createdAt": "2026-09-22T16:05:56.284Z"
+    },
+    {
+      "id": "HLPMUCV941I964E20AE46",
+      "type": "helper",
+      "username": "tes",
+      "targetUserId": "user_ba14cc35bacb4c2f",
+      "amount": 5000,
+      "status": "pending",
+      "createdAt": "2026-09-22T16:06:07.542Z"
     }
   ]
 }
