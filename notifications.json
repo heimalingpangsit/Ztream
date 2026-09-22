@@ -1,6 +1,18 @@
 {
   "notifications": [
     {
+      "id": "notif_4b606be242b748d3",
+      "userId": "user_bac028e959a94ef2",
+      "type": "CHAT_MESSAGE",
+      "title": "Pesan baru dari @tes",
+      "body": "crot",
+      "meta": {
+        "fromUsername": "tes"
+      },
+      "read": false,
+      "createdAt": "2026-09-22T15:47:30.184Z"
+    },
+    {
       "id": "notif_961d52d95e834e47",
       "userId": "user_bac028e959a94ef2",
       "type": "NEW_FOLLOWER",
